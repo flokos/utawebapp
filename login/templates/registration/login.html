@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load extra_tags %}
+{% block title %}User Login{% endblock %}
+{% block content %}
+	<div class="authentication">
+		<h1>Login</h1>
+		<form role='form' class='form-horizontal' method="post" action="" novalidate>
+			{% csrf_token %}
+			<div class="form-group">
+				{% if form.errors %}
+					<div class="alert alert-danger alert-dismissable animation fadeIn">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						<span>Please enter a correct username and password. Note that both fields may be case-sensitive.</span> 
+					</div>
+				{% endif %}
+				<label for="{{form.username.id_for_label}}">Username:</label>
+					{{ form.username|addcss:"form-control" }}
+				<label for="{{form.password.id_for_label}}">Password:</label>
+					{{ form.password|addcss:"form-control" }}
+				<br>
+				<div class="pull-right btn-group">
+					<input type="submit" class="btn btn-primary" value="Login"/>
+					<input type="button" class="btn btn-primary" value="Register" onclick="window.location.href='/register'"/>
+				</div>
+				<input type="hidden" class="form-control" name="next" value="/home" />
+			</div>
+		</form>
+	</div>
+{% endblock %}

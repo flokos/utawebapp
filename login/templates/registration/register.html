@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load login_extra_tags %}
+{% block title %}User Registration{% endblock %}
+{% block content %}
+	<div class="authentication">
+		<h2>Register</h2>
+		<form method="post" action="" >
+			{% csrf_token %}
+			{% if form.errors %}
+				<div class="alert alert-danger alert-dismissable animation fadeIn">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					<strong>{{form.errors}}</strong> 
+				</div>
+			{% endif %}
+			<div class="form-group">
+				{% for field in form %}
+					<label for="{{field.id_for_label}}">{{field.label}}:</label>
+					{{ field|addcss:"form-control" }}
+				{% endfor %}
+				<br>
+				<div class="pull-right btn-group">
+					<input type="submit" class="btn btn-primary" value="Register" />
+					<input type="button" class="btn btn-primary" value="Login" onclick="window.location.href='/'"/>
+				</div>
+			</div>
+		</form>
+	</div>
+{% endblock %}
