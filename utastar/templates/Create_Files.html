@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load extra_tags %}
+{% block title %}Upload Files{% endblock %}
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+			</div>
+			<div class="col-md-4 custom-container text-center">
+				<form role="form" method='POST' enctype='multipart/form-data' novalidate>
+					<div class="form-group">
+						{% csrf_token %}
+						<h2>Upload Files</h2>
+						<div class="horizontalLine">
+						</div>
+						<h3>Meta File</h3>
+						{% for field in meta_file_form %}
+							{% if field.errors %}
+								<div class="alert alert-danger alert-dismissable animation fadeIn">
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+									<span>{{field.errors}}</span> 
+								</div>
+							{% endif %}
+							<span class="btn btn-primary btn-file form-control">
+								Browse {{ field}}
+							</span>
+							
+						{% endfor %}
+						<br>
+						<br>
+						&nbsp;&nbsp;&nbsp;
+						<div class="horizontalLine">
+						</div>
+						<h3>Multicriteria Table File</h3>
+						{% for field in multicriteria_file_form %}
+							{% if field.errors %}
+								<div class="alert alert-danger alert-dismissable animation fadeIn">
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+									<span>"{{field.errors}}</span> 
+								</div>
+							{% endif %}
+							<span class="btn btn-primary btn-file form-control">
+								Browse {{ field}}
+							</span>
+						{% endfor %}
+						 &nbsp;&nbsp;&nbsp;
+						 <div class="text-left horizontalLine">
+							{% if messages %}
+								<ul class="messages">
+									{% for message in messages %}
+										<div class="alert alert-danger alert-dismissable animation fadeIn">
+											<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+											<span><li class="{{ message.tags }}">{{ message }}</li></span> 
+										</div>
+									{% endfor %}
+								</ul>
+							{% endif %}
+						</div>
+						<input  type='submit' name='submit' value='Submit' class="btn btn-primary"/>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-4">
+			</div>
+		</div>
+	</div>
+{% endblock %}

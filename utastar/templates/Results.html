@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load extra_tags %}
+{% block title %}Results{% endblock %}
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-8 custom-container">
+			<h2>Results</h2>
+			<div class="horizontalLine row">
+			<div class="col-md-12">
+			<h3>Meta table</h3>
+			{{ metatable| safe}}
+			<br>
+			</div>
+			</div>
+			<div class="horizontalLine row">
+			<div class="col-md-12">
+			<h3>Multicriteria table</h3>
+			{{ table | safe}}
+			<br>
+			</div>
+			</div>
+			<div class="horizontalLine row">
+			<h3>Partial Utilities</h3>
+			<div class="col-md-6">
+			<img src="data:image/png;base64,{{ img.partial_utilities }}" height="350" width="350"/>
+			</div>
+			<div class="col-md-6">
+			<br>
+			{{ partial_utilities| safe}}
+			<br>
+			<form method="post" class="form-group" novalidate>
+			{% csrf_token %}
+			<input title='export_pu' type='submit' name='export_pu' value='Export' class="btn btn-primary"/> 
+			</form>
+			</div>
+			</div>
+			<br>
+			<div class="horizontalLine row">
+			<h3>Model Weights</h3>
+			<div class="col-md-6">
+			<img src="data:image/png;base64,{{ img.weights }}" height="350" width="350"/>
+			</div>
+			<div class="col-md-6">
+			<br>
+			{{ model_weights| safe}}
+			<br>
+			<form method="post" class="form-group" novalidate>
+			{% csrf_token %}
+			<input title='export_mw' type='submit' name='export_mw' value='Export' class="btn btn-primary"/>
+			</form>
+			</div>
+			</div>
+			<br>
+			<div class="horizontalLine row">
+			<h3>Global Utilities</h3>
+			<div class="col-md-6">
+			<img src="data:image/png;base64,{{ img.ranking }}" height="350" width="350"/>
+			</div>
+			<div class="col-md-6">
+			<br>
+			{{ global_utilities| safe}}
+			<br>
+			<form method="post"  class="form-group" novalidate>
+			{% csrf_token %}
+			<input title='export_gu' type='submit' name='export_gu' value='Export' class="btn btn-primary"/>
+			</form>
+			</div>
+			</div>
+		</div>
+		<div class="col-md-2">
+		</div>
+	</div>
+</div>
+{% endblock %}

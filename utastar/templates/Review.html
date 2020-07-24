@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load extra_tags %}
+{% block title %}Review{% endblock %}
+{%block content%}
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<form role='form' class='form-horizontal' method="post" novalidate>
+					{% csrf_token %}
+					<div class="form-group custom-container ">
+						<h2><strong>Meta Table</strong></h2>
+						<br>
+						{{ criterion_formset.management_form }}
+						<table class="table-bordered table-striped table-responsive">
+							{% for form in criterion_formset %}
+								{% if forloop.first %}
+									<tr>
+										{% for field in form.visible_fields %}
+											<th>{{ field.label_tag }}</th>
+										{% endfor %}
+									</tr>
+								{% endif %}
+								<tr>
+									{% for field in form.visible_fields %}
+										<td>
+											{% if field.errors %}
+												<div class="alert alert-danger alert-dismissable animation fadeIn">
+													<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+													<span>{{ field.errors }}</span> 
+												</div>
+											{% endif %}
+											{{ field|addcss:"form-control" }}
+										</td>
+									{% endfor %}
+									{{ form.id }}
+								</tr>
+							{% endfor %}
+						</table>
+						<br>
+						<div class="horizontalLine">
+						</div>
+						<h2><strong>Multicriteria Table</strong></h2>
+						<br>
+						<table class="table-bordered table-striped table-responsive">
+							<tr>
+							{{ criterion_value_formset.management_form }}  
+								<th>
+									Alternatives|Criteria
+								</th>
+								{% for  criterion in criteria %}
+									<th>
+										{{ criterion }}
+									</th>
+								{% endfor %}
+								<th>
+									Ranking
+								</th>
+							</tr>
+							{{ ranking_formset.management_form }}
+							{% for alternative in alternatives %}
+								{% with forloop.counter0 as alt_index %}
+									{% multiply alt_index criteria_number as start_point %}
+									{% with start_point|add:criteria_number as end_point %}
+										<tr>
+											<th>
+												{{ alternative }}
+											</th>
+											{% for form in criterion_value_formset%}
+												{% with forloop.counter0 as alt_crit_index %} 
+													{%if alt_crit_index < end_point and alt_crit_index >= start_point%}
+														{% for field in form.visible_fields %}
+															<td>
+																{{ field|addcss:"form-control" }}
+															</td>
+														{% endfor %}
+														{{ form.id }}
+													{% endif %}
+												{% endwith %}
+											{% endfor %}
+											{% for form in ranking_formset%}
+												{% if alt_index == forloop.counter0 %}
+													{% for field in form.visible_fields %}
+														<td>	
+															{{ field|addcss:"form-control" }}
+														</td>
+													{% endfor %}
+													{{ form.id }}
+												{%endif%}
+											{% endfor %}
+										</tr>
+									{% endwith %}
+								{% endwith %}
+							{% endfor %}
+						</table>
+						<br>
+						<div class="horizontalLine">
+						</div>
+						<h2><strong>Parameters</strong></h2>
+						{% for field in parameters_form %}
+							{{ field.errors }}
+							<label for="{{field.id_for_label}}">{{field.label_tag}}</label>
+							<br>
+							{{ field|addcss:"form-control" }}
+							<br>
+						{% endfor %}
+						<br>
+						<div class="text-left horizontalLine">
+							{% if messages %}
+								<ul class="messages">
+									{% for message in messages %}
+										<div class="alert alert-danger alert-dismissable animation fadeIn">
+												<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+												<span><li class="{{ message.tags }}">{{ message }}</li></span> 
+											</div>
+									{% endfor %}
+								</ul>
+							{% endif %}
+						</div>
+						<div class="text-right">	
+							<input  type='submit' name='save' value='Save' class="btn btn-primary"/>
+							<input  type='submit' name='analyze' value='Analyze' class="btn btn-primary"/>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}

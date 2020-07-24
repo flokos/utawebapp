@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load extra_tags %}
+{% block title %}Create Research{% endblock %}
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4">
+			</div>
+			<div class="col-md-4 custom-container">
+				<form method="post" novalidate>
+					{% csrf_token %}
+					<div class="form-group">
+						<h1><strong>Research Creation</strong></h1>
+						{% for field in research_form %}
+								{% if field.errors %}
+										<div class="alert alert-danger alert-dismissable animation fadeIn">
+											<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+											<span>Research Name:{{ field.errors }}</span> 
+										</div>
+								{% endif %}
+								<label for="{{field.id_for_label}}">{{ field.label_tag }}</label>
+								{{ field|addcss:"form-control" }}
+						{% endfor %}
+						{% if decision_form.decision.errors %}
+							<div class="alert alert-danger alert-dismissable animation fadeIn">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+								<span>{{ decision_form.decision.errors }}</span> 
+							</div>
+						{% endif %}
+						<label for="{{decision_form.decision.id_for_label}}">{{ decision_form.decision.label_tag }}</label> 
+						{{ decision_form.decision|addcss:"form-control" }} 
+						&nbsp;&nbsp;&nbsp;
+						<input  type='submit' name='submit' value='Submit' class="btn btn-primary form-control"/>
+					</div>
+				</form>
+			</div>
+			<div class="col-lg-4">
+			</div>
+		</div>
+	</div>
+{% endblock %}

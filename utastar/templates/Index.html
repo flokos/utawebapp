@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load extra_tags %}
+{% block title %}Home{% endblock %}
+{%block content%}
+<div class="container custom-container">
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-striped">
+				<tr>
+					<th>
+						<strong>Research Name</strong>
+					</th>
+					<th>
+						<strong>Date Created</strong>
+					</th>
+					<th class="text-center">
+						<strong>Actions</strong>
+					</th>
+				</tr>
+				{% for research in research_set %}
+					<tr>
+						<td>
+							{{research.name}}
+						</td>
+						<td>
+							{{ research.date_created }}
+						</td>
+						<td>
+							<div class="row text-center">
+								<div class="col-md-4">
+									{% check_results research as results %}
+									<form action="/utastar/results/{{research.pk}}" data-toggle="tooltip" data-html="true" {% if results == False %}title="<span class='glyphicon glyphicon-ban-circle'></span>"{%endif%}>
+										{% csrf_token %}
+										<input type="submit"  name='results' value="See results" class="btn-xs btn-default" {% if results == False%}style="pointer-events: none; cursor: not-allowed;" disabled="disabled"{% endif %}>
+									</form>
+								</div>
+								<div class="col-md-4">
+									<form action="/utastar/review/{{research.pk}}">
+										{% csrf_token %}
+										<input  type="submit" name='edit' value="Edit" class="btn-xs btn-default">
+									</form>
+								</div>
+								<div class="col-md-4">
+									<form method="post" novalidate >
+										{% csrf_token %}
+										<input  type="submit" name='delete_{{ research.pk }}' value="Delete" class="btn-xs btn-default">
+									</form>
+								</div>
+							</div>
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+	<div class="row horizontalLine">
+		<div class="cold-lmd-12">
+			<form method="post" novalidate>
+				{% csrf_token %}
+				<input  type="submit" name='add_research' value="Create new research" class="btn btn-primary">
+			</form>
+		</div>
+	</div>
+</div>
+{%endblock%}
