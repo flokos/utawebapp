@@ -1,6 +1,6 @@
 cycler==0.10.0
 dj-database-url==0.4.2
-Django==1.11.29
+Django==2.2.24
 enum34==1.1.6
 funcsigs==1.0.2
 functools32==3.2.3.post2
