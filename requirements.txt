@@ -11,7 +11,7 @@ h5py==2.6.0
 jsonschema==2.5.1
 matplotlib==2.0.0
 mpmath==0.19
-numpy==1.11.3
+numpy==1.21.0
 numpydoc==0.6.0
 packaging==16.8
 pandas==0.19.2
